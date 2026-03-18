@@ -1827,37 +1827,200 @@ function Library:Window(Args)
                     end
                 end
 
-                local isOpen = false
+                                end -- kết thúc if isOpen/else
+                            end) -- kết thúc Open.MouseButton1Click
 
-                UserInputService.InputBegan:Connect(function(A)
-                    if not isOpen then return end
+                            local Setting = {}
 
-                    local mouse = LocalPlayer:GetMouse()
-                    local mx, my = mouse.X, mouse.Y
-                    local DBP, DBS = Dropdown_1.AbsolutePosition, Dropdown_1.AbsoluteSize
+                            function Setting:Clear(a)
+                                for _, v in ipairs(List_1:GetChildren()) do
+                                    if v:IsA("Frame") then
+                                        local shouldClear = a == nil or (type(a) == "string" and v.Title.Text == a) or (type(a) == "table" and isValueInTable(v.Title.Text, a))
+                                        if shouldClear then
+                                            v:Destroy()
+                                        end
+                                    end
+                                end
 
-                    if A.UserInputType == Enum.UserInputType.MouseButton1 or A.UserInputType == Enum.UserInputType.Touch then
-                        if not (mx >= DBP.X and mx <= DBP.X + DBS.X and my >= DBP.Y and my <= DBP.Y + DBS.Y) then
-                            isOpen = false
-                            Dropdown_1.Visible = false
-                            Dropdown_1.Position = UDim2.new(0.5, 0, 0.3, 0)
-                        end
-                    end
-                end)
+                                if a == nil then
+                                    Value = nil
+                                    selectedValues = {}
+                                    selectedOrder = 0
+                                    Desc_1.Text = "None"
+                                    Left.Desc.Text = "None"
+                                end
+                            end
 
-                Open.MouseButton1Click:Connect(function()
-                    if Library:IsDropdownOpen() then return end
-                    
-                    isOpen = not isOpen
+                            function Setting:AddList(Name)
+                                local NewList_1 = Library:Create("Frame", {
+                                    Name = "NewList",
+                                    Parent = List_1,
+                                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                                    BackgroundTransparency = 1,
+                                    BorderSizePixel = 0,
+                                    LayoutOrder = 0,
+                                    Size = UDim2.new(1, 0, 0, 25),
+                                    ZIndex = 500,
+                                    Selectable = false
+                                })
 
-                    if isOpen then
-                        Dropdown_1.Visible = true
-                        Library:Tween({ v = Dropdown_1, t = 0.3, s = "Back", d = "Out", g = { Position = UDim2.new(0.5, 0, 0.5, 0) } }):Play()
-                    else
-                        Dropdown_1.Visible = false
-                        Dropdown_1.Position = UDim2.new(0.5, 0, 0.3, 0)
-                    end
-                end)
+                                Library:Create("UICorner", {
+                                    Parent = NewList_1,
+                                    CornerRadius = UDim.new(0, 2)
+                                })
+
+                                local Title_2 = Library:Create("TextLabel", {
+                                    Name = "Title",
+                                    Parent = NewList_1,
+                                    AnchorPoint = Vector2.new(0.5, 0.5),
+                                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                                    BackgroundTransparency = 1,
+                                    BorderSizePixel = 0,
+                                    LayoutOrder = -1,
+                                    Position = UDim2.new(0.5, 0, 0.5, 0),
+                                    Size = UDim2.new(1, -15, 1, 0),
+                                    ZIndex = 500,
+                                    Selectable = false,
+                                    Font = Enum.Font.GothamSemibold,
+                                    RichText = true,
+                                    Text = tostring(Name),
+                                    TextColor3 = Colors.Text,
+                                    TextSize = 11,
+                                    TextStrokeTransparency = 0.699999988079071,
+                                    TextXAlignment = Enum.TextXAlignment.Left
+                                })
+
+                                Library:Create("UIGradient", {
+                                    Parent = Title_2,
+                                    Color = Colors.PrimaryGradient,
+                                    Rotation = 90
+                                })
+
+                                local function OnValue(value)
+                                    Title_2.TextColor3 = value and Colors.Primary or Colors.Text
+
+                                    if value then
+                                        Library:Tween({
+                                            v = NewList_1,
+                                            t = 0.2,
+                                            s = "Linear",
+                                            d = "Out",
+                                            g = { BackgroundTransparency = 0.85 }
+                                        }):Play()
+                                    else
+                                        Library:Tween({
+                                            v = NewList_1,
+                                            t = 0.2,
+                                            s = "Linear",
+                                            d = "Out",
+                                            g = { BackgroundTransparency = 1 }
+                                        }):Play()
+                                    end
+                                end
+
+                                local Click = Library:Button(Title_2)
+
+                                local function OnSelected()
+                                    if IsMulti then
+                                        if selectedValues[Name] then
+                                            selectedValues[Name] = nil
+                                            NewList_1.LayoutOrder = 0
+                                            OnValue(false)
+                                        else
+                                            selectedOrder = selectedOrder - 1
+                                            selectedValues[Name] = selectedOrder
+                                            NewList_1.LayoutOrder = selectedOrder
+                                            OnValue(true)
+                                        end
+
+                                        local selectedList = {}
+                                        for i in pairs(selectedValues) do table.insert(selectedList, i) end
+
+                                        if #selectedList > 0 then
+                                            table.sort(selectedList)
+                                            Value = selectedList
+                                            Settext()
+                                        else
+                                            Desc_1.Text = "N/A"
+                                            Left.Desc.Text = "N/A"
+                                        end
+
+                                        pcall(Callback, selectedList)
+                                    else
+                                        for _, v in pairs(List_1:GetChildren()) do
+                                            if v:IsA("Frame") and v.Name == 'NewList' then
+                                                v.Title.TextColor3 = Colors.Text
+                                                Library:Tween({
+                                                    v = v,
+                                                    t = 0.2,
+                                                    s = "Linear",
+                                                    d = "Out",
+                                                    g = { BackgroundTransparency = 1 }
+                                                }):Play()
+                                            end
+                                        end
+
+                                        OnValue(true)
+                                        Value = Name
+                                        Settext()
+                                        pcall(Callback, Value)
+                                    end
+                                end
+
+                                delay(0, function()
+                                    if IsMulti then
+                                        if isValueInTable(Name, Value) then
+                                            selectedOrder = selectedOrder - 1
+                                            selectedValues[Name] = selectedOrder
+                                            NewList_1.LayoutOrder = selectedOrder
+                                            OnValue(true)
+                                            local selectedList = {}
+                                            for i in pairs(selectedValues) do table.insert(selectedList, i) end
+                                            if #selectedList > 0 then
+                                                table.sort(selectedList)
+                                                Settext()
+                                            else
+                                                Desc_1.Text = "N/A"
+                                                Left.Desc.Text = "N/A"
+                                            end
+                                            pcall(Callback, selectedList)
+                                        end
+                                    else
+                                        if Name == Value then
+                                            OnValue(true)
+                                            Settext()
+                                            pcall(Callback, Value)
+                                        end
+                                    end
+                                end)
+
+                                Click.MouseButton1Click:Connect(OnSelected)
+                            end
+
+                            TextBox_1.Changed:Connect(function()
+                                local SearchT = string.lower(TextBox_1.Text)
+                                for _, v in pairs(List_1:GetChildren()) do
+                                    if v:IsA("Frame") and v.Name == 'NewList' then
+                                        v.Visible = string.find(string.lower(v.Title.Text), SearchT, 1, true) ~= nil
+                                    end
+                                end
+                            end)
+
+                            do
+                                for _, name in ipairs(List) do
+                                    Setting:AddList(name)
+                                end
+                            end
+                        end -- kết thúc do (dropdown)
+                    end -- kết thúc function Page:Dropdown
+
+                    return Page
+                end -- kết thúc function Window:NewPage
+
+                return Window
+            end -- kết thúc function Library:Window
+        end -- kết thúc do (phần cuối cùng)
+    end -- kết thúc do? (có thể thừa, tùy vào cấu trúc gốc)
 
                 local Setting = {}
 
