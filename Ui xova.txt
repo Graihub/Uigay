@@ -11,24 +11,6 @@ local Mobile = if UserInputService.TouchEnabled and not UserInputService.Keyboar
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
 
--- Màu sắc chính của thư viện - Style khô gà
-local Colors = {
-    Primary = Color3.fromRGB(196, 138, 76),    -- Màu khô gà chủ đạo
-    PrimaryGradient = {
-        ColorSequence.new{
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
-        },
-        Rotation = 90
-    },
-    Background = Color3.fromRGB(11, 11, 11),    -- Nền tối
-    Element = Color3.fromRGB(15, 15, 15),       -- Element background
-    Stroke = Color3.fromRGB(25, 25, 25),        -- Viền
-    Text = Color3.fromRGB(255, 255, 255),       -- Text trắng
-    TextSecondary = Color3.fromRGB(196, 138, 76) -- Text màu khô gà
-}
-
 function Library:Parent()
     if not RunService:IsStudio() then
         return (gethui and gethui()) or CoreGui
@@ -113,7 +95,7 @@ function Library.Effect(c, p)
 
     local ClickButtonCircle = Library:Create("Frame", {
         Parent = p,
-        BackgroundColor3 = Colors.Primary,  -- Màu khô gà cho hiệu ứng click
+        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
         BackgroundTransparency = 0.75,
         BorderSizePixel = 0,
         AnchorPoint = Vector2.new(0.5, 0.5),
@@ -153,7 +135,7 @@ function Library:NewRows(Parent, Title, Desciption)
     local Rows = Library:Create("Frame", {
         Name = "Rows",
         Parent = Parent,
-        BackgroundColor3 = Colors.Element,
+        BackgroundColor3 = Color3.fromRGB(15, 15, 15),
         BorderColor3 = Color3.fromRGB(0, 0, 0),
         BorderSizePixel = 0,
         Size = UDim2.new(1, 0, 0, 40)
@@ -161,7 +143,7 @@ function Library:NewRows(Parent, Title, Desciption)
 
     Library:Create("UIStroke", {
         Parent = Rows,
-        Color = Colors.Stroke,
+        Color = Color3.fromRGB(25, 25, 25),
         Thickness = 0.5
     })
 
@@ -244,7 +226,7 @@ function Library:NewRows(Parent, Title, Desciption)
         VerticalAlignment = Enum.VerticalAlignment.Center
     })
 
-    local TitleLabel = Library:Create("TextLabel", {
+    Library:Create("TextLabel", {
         Name = "Title",
         Parent = Text_1,
         AnchorPoint = Vector2.new(0.5, 0.5),
@@ -258,15 +240,21 @@ function Library:NewRows(Parent, Title, Desciption)
         Font = Enum.Font.GothamSemibold,
         RichText = true,
         Text = Title,
-        TextColor3 = Colors.Text,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 12,
         TextStrokeTransparency = 0.699999988079071,
         TextXAlignment = Enum.TextXAlignment.Left
     })
 
+    local Title_1 = Rows.Vectorize.Left.Text.Title
+
     Library:Create("UIGradient", {
-        Parent = TitleLabel,
-        Color = Colors.PrimaryGradient,
+        Parent = Title_1,
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+        },
         Rotation = 90
     })
 
@@ -283,7 +271,7 @@ function Library:NewRows(Parent, Title, Desciption)
         Font = Enum.Font.GothamMedium,
         RichText = true,
         Text = Desciption,
-        TextColor3 = Colors.Text,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 10,
         TextStrokeTransparency = 0.699999988079071,
         TextTransparency = 0.6,
@@ -291,11 +279,11 @@ function Library:NewRows(Parent, Title, Desciption)
     })
 
     return Rows
-}
+end
 
 function Library:Window(Args)
-    local Title = Args.Title or "Khô Gà Hub"
-    local SubTitle = Args.SubTitle or "Made by s1nve - Khô Gà Style"
+    local Title = Args.Title or "Xova's Project"
+    local SubTitle = Args.SubTitle or "Made by s1nve"
 
     local Xova = Library:Create("ScreenGui", {
         Name = "Xova",
@@ -308,7 +296,7 @@ function Library:Window(Args)
         Name = "Background",
         Parent = Xova,
         AnchorPoint = Vector2.new(0.5, 0.5),
-        BackgroundColor3 = Colors.Background,
+        BackgroundColor3 = Color3.fromRGB(11, 11, 11),
         BorderColor3 = Color3.fromRGB(0, 0, 0),
         BorderSizePixel = 0,
         Position = UDim2.new(0.5, 0, 0.5, 0),
@@ -368,14 +356,17 @@ function Library:Window(Args)
         Position = UDim2.new(0, 25, 0.5, 1),
         Size = UDim2.new(0, 27, 0, 27),
         Image = "rbxassetid://130391877219356",
-        ImageColor3 = Colors.Primary,  -- Màu khô gà
+        ImageColor3 = Color3.fromRGB(255, 0, 127),
         Visible = false
     })
 
     Library:Create("UIGradient", {
         Parent = Return_1,
         Rotation = 90,
-        Color = Colors.PrimaryGradient
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 56, 56))
+        },
     })
 
     -- HeadScale
@@ -436,7 +427,7 @@ function Library:Window(Args)
         Font = Enum.Font.GothamBold,
         RichText = true,
         Text = Title,
-        TextColor3 = Colors.Primary,  -- Màu khô gà
+        TextColor3 = Color3.fromRGB(255, 0, 127),
         TextSize = 14,
         TextStrokeTransparency = 0.699999988079071,
         TextXAlignment = Enum.TextXAlignment.Left
@@ -444,7 +435,11 @@ function Library:Window(Args)
 
     Library:Create("UIGradient", {
         Parent = Title_1,
-        Color = Colors.PrimaryGradient,
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+        },
         Rotation = 90
     })
 
@@ -461,7 +456,7 @@ function Library:Window(Args)
         Font = Enum.Font.GothamMedium,
         RichText = true,
         Text = SubTitle,
-        TextColor3 = Colors.Text,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 10,
         TextStrokeTransparency = 0.699999988079071,
         TextTransparency = 0.6,
@@ -498,13 +493,17 @@ function Library:Window(Args)
         BorderSizePixel = 0,
         Size = UDim2.new(0, 20, 0, 20),
         Image = "rbxassetid://100865348188048",
-        ImageColor3 = Colors.Primary,  -- Màu khô gà
+        ImageColor3 = Color3.fromRGB(255, 0, 127),
         LayoutOrder = 1
     })
 
     Library:Create("UIGradient", {
         Parent = Asset_1,
-        Color = Colors.PrimaryGradient,
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+        },
         Rotation = 90
     })
 
@@ -540,7 +539,7 @@ function Library:Window(Args)
         Font = Enum.Font.GothamSemibold,
         RichText = true,
         Text = "Expires at",
-        TextColor3 = Colors.Primary,  -- Màu khô gà
+        TextColor3 = Color3.fromRGB(255, 0, 127),
         TextSize = 13,
         TextStrokeTransparency = 0.699999988079071,
         TextXAlignment = Enum.TextXAlignment.Right
@@ -548,7 +547,11 @@ function Library:Window(Args)
 
     Library:Create("UIGradient", {
         Parent = Title_2,
-        Color = Colors.PrimaryGradient,
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+        },
         Rotation = 90
     })
 
@@ -565,12 +568,14 @@ function Library:Window(Args)
         Font = Enum.Font.GothamMedium,
         RichText = true,
         Text = "00:00:00 Hours",
-        TextColor3 = Colors.Text,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 10,
         TextStrokeTransparency = 0.699999988079071,
         TextTransparency = 0.6,
         TextXAlignment = Enum.TextXAlignment.Right
     })
+    
+    
 
     -- Scale (body)
     local Scale_1 = Library:Create("Frame", {
@@ -674,7 +679,7 @@ function Library:Window(Args)
 
         Library:Create("UIStroke", {
             Parent = NewTabs,
-            Color = Colors.Primary,  -- Màu khô gà
+            Color = Color3.fromRGB(75, 0, 38),
             Thickness = 1
         })
 
@@ -687,7 +692,7 @@ function Library:Window(Args)
             BorderSizePixel = 0,
             Size = UDim2.new(1, 0, 1, 0),
             Image = "rbxassetid://125411502674016",
-            ImageColor3 = Colors.Primary,  -- Màu khô gà
+            ImageColor3 = Color3.fromRGB(255, 0, 128),
             ScaleType = Enum.ScaleType.Crop
         })
 
@@ -729,12 +734,16 @@ function Library:Window(Args)
             LayoutOrder = -1,
             Size = UDim2.new(0, 25, 0, 25),
             Image = Library:Asset(Icon),
-            ImageColor3 = Colors.Primary  -- Màu khô gà
+            ImageColor3 = Color3.fromRGB(255, 0, 127)
         })
 
         Library:Create("UIGradient", {
             Parent = Icon_1,
-            Color = Colors.PrimaryGradient,
+            Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+            },
             Rotation = 90
         })
 
@@ -767,7 +776,7 @@ function Library:Window(Args)
             Font = Enum.Font.GothamBold,
             RichText = true,
             Text = Title,
-            TextColor3 = Colors.Primary,  -- Màu khô gà
+            TextColor3 = Color3.fromRGB(255, 0, 127),
             TextSize = 15,
             TextStrokeTransparency = 0.449999988079071,
             TextXAlignment = Enum.TextXAlignment.Left
@@ -775,7 +784,11 @@ function Library:Window(Args)
 
         Library:Create("UIGradient", {
             Parent = Title_1,
-            Color = Colors.PrimaryGradient,
+            Color = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+            },
             Rotation = 90
         })
 
@@ -790,7 +803,7 @@ function Library:Window(Args)
             Font = Enum.Font.GothamMedium,
             RichText = true,
             Text = Desc,
-            TextColor3 = Colors.Text,
+            TextColor3 = Color3.fromRGB(255, 255, 255),
             TextSize = 10,
             TextStrokeTransparency = 0.5,
             TextTransparency = 0.20000000298023224,
@@ -884,7 +897,7 @@ function Library:Window(Args)
                 Font = Enum.Font.GothamBold,
                 RichText = true,
                 Text = " " .. Text,
-                TextColor3 = Colors.Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 15,
                 TextStrokeTransparency = 0.7,
                 TextXAlignment = Enum.TextXAlignment.Left
@@ -892,7 +905,11 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Title,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                },
                 Rotation = 90
             })
 
@@ -919,12 +936,16 @@ function Library:Window(Args)
                 Position = UDim2.new(0, 0.5, 0.5, 1),
                 Size = UDim2.new(0, 20, 0, 20),
                 Image = Library:Asset(Icon),
-                ImageColor3 = Colors.Primary,  -- Màu khô gà
+                ImageColor3 = Color3.fromRGB(255, 0, 127),
             })
 
             Library:Create("UIGradient", {
                 Parent = IconLabel,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                },
                 Rotation = 90
             })
 
@@ -973,7 +994,7 @@ function Library:Window(Args)
                 Font = Enum.Font.GothamSemibold,
                 RichText = true,
                 Text = RightText,
-                TextColor3 = Colors.Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 12,
                 TextStrokeTransparency = 0.699999988079071,
                 TextXAlignment = Enum.TextXAlignment.Right
@@ -981,7 +1002,11 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Title_1,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                },
                 Rotation = 90
             })
 
@@ -1001,7 +1026,7 @@ function Library:Window(Args)
             local Button = Library:Create("Frame", {
                 Name = "Button",
                 Parent = Right,
-                BackgroundColor3 = Colors.Primary,  -- Màu khô gà
+                BackgroundColor3 = Color3.fromRGB(255, 0, 127),
                 BorderColor3 = Color3.fromRGB(0, 0, 0),
                 BorderSizePixel = 0,
                 Position = UDim2.new(0.730158806, 0, 0.166666672, 0),
@@ -1015,7 +1040,10 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Button,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 56, 56))
+                },
                 Rotation = 90
             })
 
@@ -1032,7 +1060,7 @@ function Library:Window(Args)
                 Font = Enum.Font.GothamSemibold,
                 RichText = true,
                 Text = Text,
-                TextColor3 = Colors.Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 11,
                 TextStrokeTransparency = 0.699999988079071
             })
@@ -1075,7 +1103,7 @@ function Library:Window(Args)
             
             local UIStroke = Library:Create("UIStroke", {
                 Parent = Background,
-                Color = Colors.Stroke,
+                Color = Color3.fromRGB(25, 25, 25),
                 Thickness = 0.5
             })
 
@@ -1088,7 +1116,7 @@ function Library:Window(Args)
                 Name = "Highligh",
                 Parent = Background,
                 AnchorPoint = Vector2.new(0.5, 0.5),
-                BackgroundColor3 = Colors.Primary,  -- Màu khô gà
+                BackgroundColor3 = Color3.fromRGB(255, 0, 127),
                 BorderColor3 = Color3.fromRGB(0, 0, 0),
                 BorderSizePixel = 0,
                 Position = UDim2.new(0.5, 0, 0.5, 0),
@@ -1102,7 +1130,10 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Highligh_1,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 56, 56))
+                },
                 Rotation = 90
             })
 
@@ -1131,7 +1162,7 @@ function Library:Window(Args)
                     Callback(Data.Value)
 
                     ImageLabel_1.Size = UDim2.new(0.85, 0, 0.85, 0)
-                    TitleLabel.TextColor3 = Colors.Primary  -- Màu khô gà khi bật
+                    TitleLabel.TextColor3 = Color3.fromRGB(255, 0, 127)
 
                     Library:Tween({ v = Highligh_1, t = 0.5, s = "Exponential", d = "Out", g = { BackgroundTransparency = 0 } }):Play()
                     Library:Tween({ v = ImageLabel_1, t = 0.5, s = "Exponential", d = "Out", g = { ImageTransparency = 0 } }):Play()
@@ -1140,7 +1171,7 @@ function Library:Window(Args)
                 else
                     Callback(Data.Value)
 
-                    TitleLabel.TextColor3 = Colors.Text  -- Trắng khi tắt
+                    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     Library:Tween({ v = Highligh_1, t = 0.5, s = "Exponential", d = "Out", g = { BackgroundTransparency = 1 } }):Play()
                     Library:Tween({ v = ImageLabel_1, t = 0.5, s = "Exponential", d = "Out", g = { ImageTransparency = 1 } }):Play()
                     UIStroke.Thickness = 0.5
@@ -1189,7 +1220,7 @@ function Library:Window(Args)
             local Slider_1 = Library:Create("Frame", {
                 Name = "Slider",
                 Parent = PageScrolling_1,
-                BackgroundColor3 = Colors.Element,
+                BackgroundColor3 = Color3.fromRGB(15, 15, 15),
                 BackgroundTransparency = 0,
                 BorderSizePixel = 0,
                 Size = UDim2.new(1, 0, 0, 42),
@@ -1203,7 +1234,7 @@ function Library:Window(Args)
 
             Library:Create("UIStroke", {
                 Parent = Slider_1,
-                Color = Colors.Stroke,
+                Color = Color3.fromRGB(25, 25, 25),
                 Thickness = 0.5
             })
 
@@ -1250,7 +1281,7 @@ function Library:Window(Args)
                 Font = Enum.Font.GothamSemibold,
                 RichText = true,
                 Text = Title,
-                TextColor3 = Colors.Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 12,
                 TextStrokeTransparency = 0.699999988079071,
                 TextXAlignment = Enum.TextXAlignment.Left
@@ -1258,7 +1289,11 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Title_1,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                },
                 Rotation = 90
             })
 
@@ -1303,7 +1338,7 @@ function Library:Window(Args)
             local ColorBar_2 = Library:Create("Frame", {
                 Name = "ColorBar",
                 Parent = ColorBar_1,
-                BackgroundColor3 = Colors.Primary,  -- Màu khô gà
+                BackgroundColor3 = Color3.fromRGB(255, 0, 127),
                 BorderSizePixel = 0,
                 Size = UDim2.new(0, 0, 1, 0),
                 Selectable = false
@@ -1316,7 +1351,10 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = ColorBar_2,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(47, 47, 47))
+                },
                 Rotation = 90
             })
 
@@ -1324,7 +1362,7 @@ function Library:Window(Args)
                 Name = "Circle",
                 Parent = ColorBar_2,
                 AnchorPoint = Vector2.new(1, 0.5),
-                BackgroundColor3 = Colors.Text,
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                 BorderSizePixel = 0,
                 Position = UDim2.new(1, 0, 0.5, 0),
                 Size = UDim2.new(0, 5, 0, 11),
@@ -1344,15 +1382,15 @@ function Library:Window(Args)
                 Font = Enum.Font.GothamMedium,
                 PlaceholderColor3 = Color3.fromRGB(178, 178, 178),
                 Text = tostring(Value),
-                TextColor3 = Colors.Text,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 TextSize = 11,
                 TextTransparency = 0.5,
                 TextTruncate = Enum.TextTruncate.AtEnd,
                 TextXAlignment = Enum.TextXAlignment.Right
             })
 
-            local khoga  = Colors.Primary  -- Màu khô gà
-            local white = Colors.Text      -- Màu trắng
+            local pink  = Color3.fromRGB(255, 0, 127)
+            local white = Color3.fromRGB(255, 255, 255)
             local dragging = false
 
             local function Round(n, decimals)
@@ -1392,8 +1430,8 @@ function Library:Window(Args)
 
                 if state then
                     Library:Tween({ v = Boxvalue_1, t = 0.3, s = "Back", d = "Out", g = { TextSize = 15 } }):Play()
-                    Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = khoga } }):Play()
-                    Library:Tween({ v = Title_1,    t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = khoga } }):Play()
+                    Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = pink  } }):Play()
+                    Library:Tween({ v = Title_1,    t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = pink  } }):Play()
                 else
                     Library:Tween({ v = Boxvalue_1, t = 0.3, s = "Back", d = "Out", g = { TextSize = 11 } }):Play()
                     Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = white } }):Play()
@@ -1403,8 +1441,8 @@ function Library:Window(Args)
 
             local function SetFocused(state)
                 if state then
-                    Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = khoga } }):Play()
-                    Library:Tween({ v = Title_1,    t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = khoga } }):Play()
+                    Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = pink  } }):Play()
+                    Library:Tween({ v = Title_1,    t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = pink  } }):Play()
                 else
                     Library:Tween({ v = Boxvalue_1, t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = white } }):Play()
                     Library:Tween({ v = Title_1,    t = 0.2, s = "Exponential", d = "Out", g = { TextColor3 = white } }):Play()
@@ -1478,7 +1516,7 @@ function Library:Window(Args)
             local Front_1 = Library:Create("Frame", {
                 Name = "Front",
                 Parent = Input_1,
-                BackgroundColor3 = Colors.Element,
+                BackgroundColor3 = Color3.fromRGB(15, 15, 15),
                 BorderSizePixel = 0,
                 Size = UDim2.new(1, -35, 1, 0),
                 Selectable = false
@@ -1491,7 +1529,7 @@ function Library:Window(Args)
 
             Library:Create("UIStroke", {
                 Parent = Front_1,
-                Color = Colors.Stroke,
+                Color = Color3.fromRGB(25, 25, 25),
                 Thickness = 0.5
             })
 
@@ -1515,7 +1553,7 @@ function Library:Window(Args)
             local Enter_1 = Library:Create("Frame", {
                 Name = "Enter",
                 Parent = Input_1,
-                BackgroundColor3 = Colors.Primary,  -- Màu khô gà
+                BackgroundColor3 = Color3.fromRGB(255, 0, 127),
                 BorderSizePixel = 0,
                 Size = UDim2.new(0, 30, 0, 30),
                 Selectable = false
@@ -1528,7 +1566,10 @@ function Library:Window(Args)
 
             Library:Create("UIGradient", {
                 Parent = Enter_1,
-                Color = Colors.PrimaryGradient,
+                Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(56, 56, 56))
+                },
                 Rotation = 90
             })
 
@@ -1592,8 +1633,7 @@ function Library:Window(Args)
                 BorderSizePixel = 0,
                 Size = UDim2.new(0, 20, 0, 20),
                 Image = "rbxassetid://132291592681506",
-                ImageTransparency = 0.5,
-                ImageColor3 = Colors.Primary  -- Màu khô gà
+                ImageTransparency = 0.5
             })
 
             local Open = Library:Button(Rows.Vectorize)
@@ -1629,7 +1669,7 @@ function Library:Window(Args)
 
                 Library:Create("UIStroke", {
                     Parent = Dropdown_1,
-                    Color = Colors.Stroke,
+                    Color = Color3.fromRGB(30, 30, 30),
                     Thickness = 0.5
                 })
 
@@ -1683,7 +1723,7 @@ function Library:Window(Args)
                     Font = Enum.Font.GothamSemibold,
                     RichText = true,
                     Text = Title,
-                    TextColor3 = Colors.Primary,  -- Màu khô gà
+                    TextColor3 = Color3.fromRGB(255, 0, 127),
                     TextSize = 14,
                     TextStrokeTransparency = 0.699999988079071,
                     TextXAlignment = Enum.TextXAlignment.Left
@@ -1691,7 +1731,11 @@ function Library:Window(Args)
 
                 Library:Create("UIGradient", {
                     Parent = Title_1,
-                    Color = Colors.PrimaryGradient,
+                    Color = ColorSequence.new{
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                        ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                    },
                     Rotation = 90
                 })
 
@@ -1709,7 +1753,7 @@ function Library:Window(Args)
                     Font = Enum.Font.GothamMedium,
                     RichText = true,
                     Text = GetText(),
-                    TextColor3 = Colors.Text,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
                     TextSize = 10,
                     TextStrokeTransparency = 0.699999988079071,
                     TextTransparency = 0.6,
@@ -1740,7 +1784,7 @@ function Library:Window(Args)
                 local Front_1 = Library:Create("Frame", {
                     Name = "Front",
                     Parent = Input_1,
-                    BackgroundColor3 = Colors.Element,
+                    BackgroundColor3 = Color3.fromRGB(15, 15, 15),
                     BorderSizePixel = 0,
                     Size = UDim2.new(1, 0, 1, 0),
                     ZIndex = 500,
@@ -1754,7 +1798,7 @@ function Library:Window(Args)
 
                 Library:Create("UIStroke", {
                     Parent = Front_1,
-                    Color = Colors.Stroke,
+                    Color = Color3.fromRGB(25, 25, 25),
                     Thickness = 0.5
                 })
 
@@ -1773,7 +1817,7 @@ function Library:Window(Args)
                     PlaceholderColor3 = Color3.fromRGB(55, 55, 55),
                     PlaceholderText = "Search",
                     Text = "",
-                    TextColor3 = Colors.Text,
+                    TextColor3 = Color3.fromRGB(255, 255, 255),
                     TextSize = 11,
                     TextXAlignment = Enum.TextXAlignment.Left
                 })
@@ -1827,200 +1871,37 @@ function Library:Window(Args)
                     end
                 end
 
-                                end -- kết thúc if isOpen/else
-                            end) -- kết thúc Open.MouseButton1Click
+                local isOpen = false
 
-                            local Setting = {}
+                UserInputService.InputBegan:Connect(function(A)
+                    if not isOpen then return end
 
-                            function Setting:Clear(a)
-                                for _, v in ipairs(List_1:GetChildren()) do
-                                    if v:IsA("Frame") then
-                                        local shouldClear = a == nil or (type(a) == "string" and v.Title.Text == a) or (type(a) == "table" and isValueInTable(v.Title.Text, a))
-                                        if shouldClear then
-                                            v:Destroy()
-                                        end
-                                    end
-                                end
+                    local mouse = LocalPlayer:GetMouse()
+                    local mx, my = mouse.X, mouse.Y
+                    local DBP, DBS = Dropdown_1.AbsolutePosition, Dropdown_1.AbsoluteSize
 
-                                if a == nil then
-                                    Value = nil
-                                    selectedValues = {}
-                                    selectedOrder = 0
-                                    Desc_1.Text = "None"
-                                    Left.Desc.Text = "None"
-                                end
-                            end
+                    if A.UserInputType == Enum.UserInputType.MouseButton1 or A.UserInputType == Enum.UserInputType.Touch then
+                        if not (mx >= DBP.X and mx <= DBP.X + DBS.X and my >= DBP.Y and my <= DBP.Y + DBS.Y) then
+                            isOpen = false
+                            Dropdown_1.Visible = false
+                            Dropdown_1.Position = UDim2.new(0.5, 0, 0.3, 0)
+                        end
+                    end
+                end)
 
-                            function Setting:AddList(Name)
-                                local NewList_1 = Library:Create("Frame", {
-                                    Name = "NewList",
-                                    Parent = List_1,
-                                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                                    BackgroundTransparency = 1,
-                                    BorderSizePixel = 0,
-                                    LayoutOrder = 0,
-                                    Size = UDim2.new(1, 0, 0, 25),
-                                    ZIndex = 500,
-                                    Selectable = false
-                                })
+                Open.MouseButton1Click:Connect(function()
+                    if Library:IsDropdownOpen() then return end
+                    
+                    isOpen = not isOpen
 
-                                Library:Create("UICorner", {
-                                    Parent = NewList_1,
-                                    CornerRadius = UDim.new(0, 2)
-                                })
-
-                                local Title_2 = Library:Create("TextLabel", {
-                                    Name = "Title",
-                                    Parent = NewList_1,
-                                    AnchorPoint = Vector2.new(0.5, 0.5),
-                                    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                                    BackgroundTransparency = 1,
-                                    BorderSizePixel = 0,
-                                    LayoutOrder = -1,
-                                    Position = UDim2.new(0.5, 0, 0.5, 0),
-                                    Size = UDim2.new(1, -15, 1, 0),
-                                    ZIndex = 500,
-                                    Selectable = false,
-                                    Font = Enum.Font.GothamSemibold,
-                                    RichText = true,
-                                    Text = tostring(Name),
-                                    TextColor3 = Colors.Text,
-                                    TextSize = 11,
-                                    TextStrokeTransparency = 0.699999988079071,
-                                    TextXAlignment = Enum.TextXAlignment.Left
-                                })
-
-                                Library:Create("UIGradient", {
-                                    Parent = Title_2,
-                                    Color = Colors.PrimaryGradient,
-                                    Rotation = 90
-                                })
-
-                                local function OnValue(value)
-                                    Title_2.TextColor3 = value and Colors.Primary or Colors.Text
-
-                                    if value then
-                                        Library:Tween({
-                                            v = NewList_1,
-                                            t = 0.2,
-                                            s = "Linear",
-                                            d = "Out",
-                                            g = { BackgroundTransparency = 0.85 }
-                                        }):Play()
-                                    else
-                                        Library:Tween({
-                                            v = NewList_1,
-                                            t = 0.2,
-                                            s = "Linear",
-                                            d = "Out",
-                                            g = { BackgroundTransparency = 1 }
-                                        }):Play()
-                                    end
-                                end
-
-                                local Click = Library:Button(Title_2)
-
-                                local function OnSelected()
-                                    if IsMulti then
-                                        if selectedValues[Name] then
-                                            selectedValues[Name] = nil
-                                            NewList_1.LayoutOrder = 0
-                                            OnValue(false)
-                                        else
-                                            selectedOrder = selectedOrder - 1
-                                            selectedValues[Name] = selectedOrder
-                                            NewList_1.LayoutOrder = selectedOrder
-                                            OnValue(true)
-                                        end
-
-                                        local selectedList = {}
-                                        for i in pairs(selectedValues) do table.insert(selectedList, i) end
-
-                                        if #selectedList > 0 then
-                                            table.sort(selectedList)
-                                            Value = selectedList
-                                            Settext()
-                                        else
-                                            Desc_1.Text = "N/A"
-                                            Left.Desc.Text = "N/A"
-                                        end
-
-                                        pcall(Callback, selectedList)
-                                    else
-                                        for _, v in pairs(List_1:GetChildren()) do
-                                            if v:IsA("Frame") and v.Name == 'NewList' then
-                                                v.Title.TextColor3 = Colors.Text
-                                                Library:Tween({
-                                                    v = v,
-                                                    t = 0.2,
-                                                    s = "Linear",
-                                                    d = "Out",
-                                                    g = { BackgroundTransparency = 1 }
-                                                }):Play()
-                                            end
-                                        end
-
-                                        OnValue(true)
-                                        Value = Name
-                                        Settext()
-                                        pcall(Callback, Value)
-                                    end
-                                end
-
-                                delay(0, function()
-                                    if IsMulti then
-                                        if isValueInTable(Name, Value) then
-                                            selectedOrder = selectedOrder - 1
-                                            selectedValues[Name] = selectedOrder
-                                            NewList_1.LayoutOrder = selectedOrder
-                                            OnValue(true)
-                                            local selectedList = {}
-                                            for i in pairs(selectedValues) do table.insert(selectedList, i) end
-                                            if #selectedList > 0 then
-                                                table.sort(selectedList)
-                                                Settext()
-                                            else
-                                                Desc_1.Text = "N/A"
-                                                Left.Desc.Text = "N/A"
-                                            end
-                                            pcall(Callback, selectedList)
-                                        end
-                                    else
-                                        if Name == Value then
-                                            OnValue(true)
-                                            Settext()
-                                            pcall(Callback, Value)
-                                        end
-                                    end
-                                end)
-
-                                Click.MouseButton1Click:Connect(OnSelected)
-                            end
-
-                            TextBox_1.Changed:Connect(function()
-                                local SearchT = string.lower(TextBox_1.Text)
-                                for _, v in pairs(List_1:GetChildren()) do
-                                    if v:IsA("Frame") and v.Name == 'NewList' then
-                                        v.Visible = string.find(string.lower(v.Title.Text), SearchT, 1, true) ~= nil
-                                    end
-                                end
-                            end)
-
-                            do
-                                for _, name in ipairs(List) do
-                                    Setting:AddList(name)
-                                end
-                            end
-                        end -- kết thúc do (dropdown)
-                    end -- kết thúc function Page:Dropdown
-
-                    return Page
-                end -- kết thúc function Window:NewPage
-
-                return Window
-            end -- kết thúc function Library:Window
-        end -- kết thúc do (phần cuối cùng)
-    end -- kết thúc do? (có thể thừa, tùy vào cấu trúc gốc)
+                    if isOpen then
+                        Dropdown_1.Visible = true
+                        Library:Tween({ v = Dropdown_1, t = 0.3, s = "Back", d = "Out", g = { Position = UDim2.new(0.5, 0, 0.5, 0) } }):Play()
+                    else
+                        Dropdown_1.Visible = false
+                        Dropdown_1.Position = UDim2.new(0.5, 0, 0.3, 0)
+                    end
+                end)
 
                 local Setting = {}
 
@@ -2076,7 +1957,7 @@ function Library:Window(Args)
                         Font = Enum.Font.GothamSemibold,
                         RichText = true,
                         Text = tostring(Name),
-                        TextColor3 = Colors.Text,
+                        TextColor3 = Color3.fromRGB(255, 255, 255),
                         TextSize = 11,
                         TextStrokeTransparency = 0.699999988079071,
                         TextXAlignment = Enum.TextXAlignment.Left
@@ -2084,12 +1965,16 @@ function Library:Window(Args)
 
                     Library:Create("UIGradient", {
                         Parent = Title_2,
-                        Color = Colors.PrimaryGradient,
+                        Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                            ColorSequenceKeypoint.new(0.749568, Color3.fromRGB(163, 163, 163)),
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 100, 100))
+                        },
                         Rotation = 90
                     })
 
                     local function OnValue(value)
-                        Title_2.TextColor3 = value and Colors.Primary or Colors.Text
+                        Title_2.TextColor3 = value and Color3.fromRGB(255, 0, 127) or Color3.fromRGB(255, 255, 255)
 
                         if value then
                             Library:Tween({
@@ -2141,7 +2026,7 @@ function Library:Window(Args)
                         else
                             for _, v in pairs(List_1:GetChildren()) do
                                 if v:IsA("Frame") and v.Name == 'NewList' then
-                                    v.Title.TextColor3 = Colors.Text
+                                    v.Title.TextColor3 = Color3.fromRGB(255, 255, 255)
                                     Library:Tween({
                                         v = v,
                                         t = 0.2,
@@ -2276,7 +2161,7 @@ function Library:Window(Args)
             local Pillow_1 = Library:Create("TextButton", {
                 Name = "Pillow",
                 Parent = ToggleScreen,
-                BackgroundColor3 = Colors.Background,
+                BackgroundColor3 = Color3.fromRGB(11, 11, 11),
                 BorderSizePixel = 0,
                 Position = UDim2.new(0.06, 0, 0.15, 0),
                 Size = UDim2.new(0, 50, 0, 50),
@@ -2297,8 +2182,7 @@ function Library:Window(Args)
                 BorderSizePixel = 0,
                 Position = UDim2.new(0.5, 0, 0.5, 0),
                 Size = UDim2.new(0.5, 0, 0.5, 0),
-                Image = "rbxassetid://104055321996495",
-                ImageColor3 = Colors.Primary
+                Image = "rbxassetid://104055321996495"
             })
 
             Library:Draggable(Pillow_1)
