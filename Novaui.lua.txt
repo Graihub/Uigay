@@ -2225,4 +2225,132 @@ function Library:Window(Args)
     return Window
 end
 
+--// ===== NOVA STYLE SUPPORT =====
+function Library:MakeWindow(args)
+    local win = self:Window({
+        Title = args.Title,
+        SubTitle = args.SubTitle
+    })
+
+    local currentPage = nil
+    local wrapper = {}
+
+    function wrapper:AddPage(args)
+        currentPage = win:NewPage({
+            Title = args.Title,
+            Desc = args.Desc or "",
+            Icon = args.Icon or 0
+        })
+        return wrapper
+    end
+
+    function wrapper:AddSection(text)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Section(text)
+    end
+
+    function wrapper:AddParagraph(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Paragraph({
+            Title = args.Title,
+            Desc = args.Desc or "",
+            Image = args.Image
+        })
+    end
+
+    function wrapper:AddRightLabel(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:RightLabel({
+            Title = args.Title,
+            Desc = args.Desc or "",
+            Right = args.Right
+        })
+    end
+
+    function wrapper:AddButton(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Button({
+            Title = args.Title,
+            Desc = args.Desc or "",
+            Text = args.Text,
+            Callback = args.Callback
+        })
+    end
+
+    function wrapper:AddToggle(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Toggle({
+            Title = args.Title,
+            Desc = args.Desc or "",
+            Value = args.Value or false,
+            Callback = args.Callback
+        })
+    end
+
+    function wrapper:AddSlider(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Slider({
+            Title = args.Title,
+            Min = args.Min,
+            Max = args.Max,
+            Rounding = args.Rounding or 0,
+            Value = args.Value,
+            Callback = args.Callback
+        })
+    end
+
+    function wrapper:AddDropdown(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Dropdown({
+            Title = args.Title,
+            List = args.List,
+            Value = args.Value,
+            Callback = args.Callback
+        })
+    end
+
+    function wrapper:AddInput(args)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Input({
+            Value = args.Value or "",
+            Callback = args.Callback
+        })
+    end
+
+    function wrapper:AddBanner(assetId)
+        if not currentPage then
+            error("You must add a page first using :AddPage()")
+        end
+        return currentPage:Banner(assetId)
+    end
+
+    function wrapper:SetExpireTime(text)
+        self:SetTimeValue(text)
+        return wrapper
+    end
+
+    function wrapper:Show()
+        print("UI Loaded successfully!")
+        return wrapper
+    end
+
+    return wrapper
+end
+
 return Library
